@@ -15,9 +15,8 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
-    file = open(file_path)
 
-    return file.read()
+    return open(file_path).read()
 
 
 def make_chains(text_string, n):
@@ -44,7 +43,7 @@ def make_chains(text_string, n):
         >>> chains[('there','juanita')]
         [None]
     """
-    words_lst = text_string.strip().split()
+    words_lst = text_string.split()
     chains = {}
 
     for i in range(len(words_lst) - n):
@@ -60,21 +59,24 @@ def make_text(chains, n):
 
     words = []
 
-    keys_lst = list(chains.keys())
-        #fill list with tuples
+    keys_lst = list(filter(lambda x: x[0][0].isupper(), chains.keys()))
+    # keys_lst = list(chains.keys())
+    # creates a list of keys which start with a capital letter
+
+    # fill list with tuples
     init_key = choice(keys_lst)
-        #assign random the whole tuple-key
-    while init_key[0][0].islower() or not init_key[0][0].isalpha():
-        init_key = choice(keys_lst)
+    # assign random the whole tuple-key
+    # while init_key[0][0].islower() or not init_key[0][0].isalpha():
+    #     init_key = choice(keys_lst)
 
     words.extend(init_key)
-        # add the tuple-key to word list
+    # add the tuple-key to word list
 
     next_word = choice(chains[init_key])
-        # picking value-word, assign to next_word
+    # picking value-word, assign to next_word
 
     words.append(next_word)
-        #adding value-word to our generated sentence
+    # adding value-word to our generated sentence
 
     while True:
         next_key = tuple(words[-n:])
@@ -87,6 +89,8 @@ def make_text(chains, n):
                 break
         else:
             break
+
+    print(words)
 
     return " ".join(words)
 
